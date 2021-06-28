@@ -31,7 +31,11 @@ function wpcf7_submit_form_tag_handler( $tag ) {
 
 	$atts = wpcf7_format_atts( $atts );
 
-	$html = sprintf( '<input %1$s />', $atts );
+	if ( $tag->has_option( 'is_button_element' ) ) {
+		$html= sprintf( '<button %1$s >%2$s</button>', $atts, html_entity_decode( $value ) );
+	} else {
+		$html = sprintf( '<input %1$s />', $atts );
+	}
 
 	return $html;
 }
@@ -74,6 +78,11 @@ function wpcf7_tag_generator_submit( $contact_form, $args = '' ) {
 	<tr>
 	<th scope="row"><label for="<?php echo esc_attr( $args['content'] . '-class' ); ?>"><?php echo esc_html( __( 'Class attribute', 'contact-form-7' ) ); ?></label></th>
 	<td><input type="text" name="class" class="classvalue oneline option" id="<?php echo esc_attr( $args['content'] . '-class' ); ?>" /></td>
+	</tr>
+
+	<tr>
+	<th scope="row"><?php echo esc_html( __( 'Options', 'contact-form-7' ) ); ?></th>
+	<td><label><input type="checkbox" name="is_button_element" class="option" /> <?php echo esc_html( __( 'Use a button element instead of input type submit', 'contact-form-7' ) ); ?></label></td>
 	</tr>
 
 </tbody>
